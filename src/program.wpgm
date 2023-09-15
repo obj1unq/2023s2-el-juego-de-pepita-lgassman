@@ -22,7 +22,9 @@ program pepitaGame {
 	keyboard.down().onPressDo({pepita.mover(abajo)})
 	keyboard.left().onPressDo({pepita.mover(izquierda)})
 	keyboard.right().onPressDo({pepita.mover(derecha)})
-	keyboard.c().onPressDo({pepita.comerAhi()})
+	
+	game.onTick(1000, "gravedad", {pepita.caer()})
+	game.onCollideDo(pepita, {algo => algo.chocaste(pepita)})
 	//start
 	game.start()
 

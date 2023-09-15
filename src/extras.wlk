@@ -12,6 +12,11 @@ object nido {
 		//devuelvo la esquina superior derecha
 		return game.at(game.width() - 1,game.height() - 1)
 	}
+	
+	method chocaste(golondrina) {
+		pepita.ganar()
+	}
+	
 }
 
 object silvestre {
@@ -28,6 +33,11 @@ object silvestre {
 	method x() {
 		return presa.position().x().max(3)
 	}
+	
+	method chocaste(golondrina) {
+		pepita.perder()
+	}
+	
 }
 
 

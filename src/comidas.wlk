@@ -8,7 +8,7 @@ object manzana {
 		return "manzana.png"
 	}
 	method position() {
-		return game.at(3,5)
+		return game.at(6,5)
 	}
 	
 	method energiaQueOtorga() {
@@ -19,6 +19,9 @@ object manzana {
 		madurez = madurez + 1
 	}
 
+	method chocaste(golondrina) {
+		golondrina.comerVisual(self)	
+	}
 }
 
 object alpiste {
@@ -32,9 +35,14 @@ object alpiste {
 	}
 	
 	method position() {
-		return game.at(4,2)
+		return game.at(6,6)
 	}
 	
+	method chocaste(golondrina) {
+		golondrina.comerVisual(self)	
+		golondrina.empachada()
+	}
 
 }
+
 
