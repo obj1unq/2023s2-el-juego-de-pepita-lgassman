@@ -18,7 +18,11 @@ object manzana {
 	method madurar() {
 		madurez = madurez + 1
 	}
-
+	
+	method colision(personaje) {
+		personaje.comerVisual(self)	
+	}
+	
 }
 
 object alpiste {
@@ -35,6 +39,10 @@ object alpiste {
 		return game.at(4,2)
 	}
 	
+	method colision(personaje) {
+		personaje.comerVisual(self)
+		personaje.empachada()	
+	}
 
 }
 

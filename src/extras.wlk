@@ -12,6 +12,10 @@ object nido {
 		//devuelvo la esquina superior derecha
 		return game.at(game.width() - 1,game.height() - 1)
 	}
+	
+	method colision(personaje) {
+		personaje.ganar()
+	}
 }
 
 object silvestre {
@@ -28,6 +32,11 @@ object silvestre {
 	method x() {
 		return presa.position().x().max(3)
 	}
+	
+	method colision(personaje) {
+		personaje.perder()
+	}
+	
 }
 
 

@@ -27,3 +27,4 @@ Los alimentos aparecen de manera aleatoria en el juego.
 
 ### Bonus
 Agregar la posibilidad de dibujar un mapa de manera sensata
+Agregar muros y paredes que pepita no puede atravesar

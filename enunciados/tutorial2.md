@@ -36,6 +36,4 @@ para evitar que se quede sin energía...
 > Para obtener el objeto con el que pepita se encuentra colisionando usar el mensaje `game.uniqueCollider(pepita)`.
 - **BONUS**: 
   - Antes de mover a pepita, controlar que no se vaya del rango visible del juego.
-  - Luego de moverse, si se queda sin energía, terminar el juego.
   - Utilizar el evento `onTick` para agregar gravedad, haciendo que pepita pierda altura cada `800` milisegundos, es decir, descienda su coordenada `y` en 1, pero _sin perder energía_.
-  - Agregar muros y paredes que pepita no puede atravesar

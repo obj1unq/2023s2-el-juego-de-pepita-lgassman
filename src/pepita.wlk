@@ -3,29 +3,90 @@ import extras.*
 import comidas.*
 import direcciones.*
 
+object ganadora {
+	method puedeMover() {
+		return false
+	}
+
+// ya no hacen falta	
+//	method esActual(personaje) {
+//		return personaje.position() == personaje.destino().position()
+//	}
+}
+
+object perdedora {
+	method puedeMover() {
+		return false
+	}
+
+//	method esActual(personaje) {
+//		return personaje.position() == personaje.perseguidor().position() or
+//				not personaje.puedeVolar(1)
+//	}
+}
+
+object 	volando {
+	method puedeMover() {
+		return true
+	}
+	
+//	method esActual(personaje) {
+//		return true		
+//	}
+}
+
+object empachada {
+
+	method puedeMover() {
+		return false //Esto despues lo vamos a tener que cambiar
+	}
+	
+}
+
+// Ahora no se necesita más este objeto
+// porque el estado se recuerda a partir
+// de los eventos de las colisiones
+//
+//object estadosDePersonaje {
+//	
+//	const estadosPosibles = [enDestino, fracasada, volando]
+//	
+//	method actual(personaje) {
+//		return estadosPosibles.find({estado => estado.esActual(personaje)})
+//	} 
+//}
+
 object pepita {
 
 	var energia = 100
-	var position = game.at(5, 3)
-	const destino = nido
-	const perseguidor = silvestre
-
-	method enElDestino() {
-		return self.position() == destino.position()
-	}
-	method fracasada() {
-		return self.position() == perseguidor.position() or
-				not self.puedeVolar(1)
+	var position = game.at(2, 5)
+	const property destino = nido
+	const property perseguidor = silvestre
+	var property estado = volando
+	
+	method empachada() {
+		estado = empachada	
+		game.schedule(2000, {estado = volando})
 	}
 
-	method estado() {
-		return if (self.enElDestino()) {
-			"enDestino"
-		} else if (self.fracasada()) {
-			"atrapada"
-		} else {
-			"volando"
-		}
+// Ahora el estado es recordado a partir de los eventos de las colisiones	
+//	method estado() {
+//		return estadosDePersonaje.actual(self)
+//	}
+	
+	method ganar() {
+		estado = ganadora
+		self.terminar()
+	}
+	
+	method perder() {
+		estado = perdedora
+		self.terminar()
+	}
+	
+	method terminar() {
+		game.removeTickEvent("GRAVEDAD")
+		game.schedule(5000, {game.stop()})	
 	}
 	
 	method image() {
@@ -64,6 +125,9 @@ object pepita {
 	
 	method volar(kms) {
 		energia = energia - self.energiaParaVolar(kms)
+		if(not self.puedeVolar(1)) {
+			self.perder()
+		}
 	}
 	
 	method puedeVolar(kms) {
@@ -74,19 +138,38 @@ object pepita {
 		return energia
 	}
 	
-	method mover(direccion) {
-		const proxima = direccion.siguiente(self.position())
-		if(tablero.pertenece(proxima) and not self.fracasada()) {
-			self.volar(1)
-			self.position(proxima)		
-		}
-		//Por ahora no es un problema
+	method puedeOcupar(posicion) {
+		return tablero.pertenece(posicion)
 	}
 	
-	method comerAhi() {
-		const alimento = game.uniqueCollider(self)
+	method sePuedeMover(direccion) {
+		const proxima = direccion.siguiente(self.position())
+		return self.puedeOcupar(proxima) and self.estado().puedeMover()
+	}
+	
+	method validarMover(direccion) {
+		if(not self.sePuedeMover(direccion)) {
+			self.error("No puedo ir ahí")
+		} 
+	}
+	
+	method mover(direccion) {
+		self.validarMover(direccion)
+		const proxima = direccion.siguiente(self.position())		
+		self.volar(1)
+		self.position(proxima)		
+	}
+	
+	method comerVisual(alimento) {
 		self.comer(alimento)
 		game.removeVisual(alimento)
+	}
+	
+	method decaer() {
+		const proxima = abajo.siguiente(self.position())
+		if(self.puedeOcupar(proxima)) {
+			self.position(proxima)
+		}
 	}
 
 
