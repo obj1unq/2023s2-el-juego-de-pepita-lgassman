@@ -46,7 +46,7 @@ object mapa {
 		[_,_,_,_,_,_,m,_,_,_],		
 		[_,_,_,_,_,_,m,m,_,_],		
 		[_,_,_,s,_,_,_,_,_,_]		
-	].reverse() //reverse porque el i crece en el orden inverso
+	].reverse() //reverse porque el y crece en el orden inverso
 	
 	
 	

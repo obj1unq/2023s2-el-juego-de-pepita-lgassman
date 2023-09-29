@@ -58,7 +58,7 @@ object empachada {
 
 object pepita {
 
-	var energia = 1000
+	var energia = 100
 	var position = game.at(2, 5)
 	const property destino = nido
 	const property perseguidor = silvestre
