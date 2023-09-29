@@ -2,20 +2,20 @@ import wollok.game.*
 import pepita.*
 
 object nido {
-	
+	var property position=game.at(0,0)
 	
 	method image() {
-		return "nido.png"
+		return "nido2.png"
 	}
-	
-	method position() {
-		//devuelvo la esquina superior derecha
-		return game.at(game.width() - 1,game.height() - 1)
-	}
-	
+		
 	method colision(personaje) {
 		personaje.ganar()
 	}
+	
+	method solido() {
+		return false
+	}
+	
 }
 
 object silvestre {
@@ -35,6 +35,21 @@ object silvestre {
 	
 	method colision(personaje) {
 		personaje.perder()
+	}
+	
+	method solido() {
+		return false
+	}
+	
+	
+}
+
+class Muro {
+	const property position
+	const property image = "muro.png"
+	
+	method solido() {
+		return true
 	}
 	
 }

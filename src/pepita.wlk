@@ -58,7 +58,7 @@ object empachada {
 
 object pepita {
 
-	var energia = 100
+	var energia = 1000
 	var position = game.at(2, 5)
 	const property destino = nido
 	const property perseguidor = silvestre
@@ -116,6 +116,20 @@ object pepita {
 	}
 
 	method comer(comida) {
+//		If no polimorfico que hay que evitar
+//		if (comida.esAlpiste()) {
+//			energia += energia + 20
+//		}
+//		else {
+//			energia += energia + comida.madurez() * base
+//		}
+//
+	    // Manera standard de resolver el problema		
+		//comida.teComieron(self)
+		
+		
+		//Manera correcta para este caso ya que había parte del código 
+		//que era dependiente de pepita
 		energia = energia + comida.energiaQueOtorga()
 	}
 
@@ -139,7 +153,7 @@ object pepita {
 	}
 	
 	method puedeOcupar(posicion) {
-		return tablero.pertenece(posicion)
+		return tablero.puedeOcupar(posicion) 
 	}
 	
 	method sePuedeMover(direccion) {
@@ -162,7 +176,7 @@ object pepita {
 	
 	method comerVisual(alimento) {
 		self.comer(alimento)
-		game.removeVisual(alimento)
+		comidasManager.quitar(alimento)
 	}
 	
 	method decaer() {

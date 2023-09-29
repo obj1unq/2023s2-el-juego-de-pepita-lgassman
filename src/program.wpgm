@@ -3,20 +3,17 @@ import pepita.*
 import extras.*
 import direcciones.*
 import comidas.*
+import randomizer.*
+import mapa.*
 
 program pepitaGame {
 	//configurar el tablero
 	game.width(12)
 	game.height(8)
-	game.cellSize(80)
+	game.cellSize(50)
 	
-	//agregar visuales
-	game.addVisual(nido)
-	game.addVisual(silvestre)
-	game.addVisual(alpiste)
-	game.addVisual(manzana)
+	mapa.generar()
 	
-	game.addVisual(pepita)
 	//game.addVisualCharacter(pepita) 
 	keyboard.up().onPressDo({pepita.mover(arriba)})	
 	keyboard.down().onPressDo({pepita.mover(abajo)})
@@ -25,7 +22,7 @@ program pepitaGame {
 
 	game.onCollideDo(pepita, {algo => algo.colision(pepita)})	
 	game.onTick(800, "GRAVEDAD", {pepita.decaer()})
-	
+	game.onTick(3000,"ALIMENTOS", {comidasManager.generar()})		
 	//start
 	game.start()
 
