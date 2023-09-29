@@ -4,7 +4,7 @@ import comidas.*
 import direcciones.*
 
 object ganadora {
-	method puedeMover() {
+	method puedeMover(golondrina) {
 		return false
 	}
 
@@ -15,7 +15,7 @@ object ganadora {
 }
 
 object perdedora {
-	method puedeMover() {
+	method puedeMover(golondrina) {
 		return false
 	}
 
@@ -26,8 +26,8 @@ object perdedora {
 }
 
 object 	volando {
-	method puedeMover() {
-		return true
+	method puedeMover(golondrina) {
+		return golondrina.puedeVolar(1)
 	}
 	
 //	method esActual(personaje) {
@@ -37,7 +37,7 @@ object 	volando {
 
 object empachada {
 
-	method puedeMover() {
+	method puedeMover(golondrina) {
 		return false //Esto despues lo vamos a tener que cambiar
 	}
 	
@@ -58,7 +58,7 @@ object empachada {
 
 object pepita {
 
-	var energia = 100
+	var energia = 400
 	var position = game.at(2, 5)
 	const property destino = nido
 	const property perseguidor = silvestre
@@ -76,11 +76,13 @@ object pepita {
 	
 	method ganar() {
 		estado = ganadora
+		game.say(self, "Gane!")
 		self.terminar()
 	}
 	
 	method perder() {
 		estado = perdedora
+		game.say(self, "Perdí :(")
 		self.terminar()
 	}
 	
@@ -125,9 +127,6 @@ object pepita {
 	
 	method volar(kms) {
 		energia = energia - self.energiaParaVolar(kms)
-		if(not self.puedeVolar(1)) {
-			self.perder()
-		}
 	}
 	
 	method puedeVolar(kms) {
@@ -139,12 +138,12 @@ object pepita {
 	}
 	
 	method puedeOcupar(posicion) {
-		return tablero.pertenece(posicion)
+		return tablero.ocupable(posicion) 
 	}
 	
 	method sePuedeMover(direccion) {
 		const proxima = direccion.siguiente(self.position())
-		return self.puedeOcupar(proxima) and self.estado().puedeMover()
+		return self.puedeOcupar(proxima) and self.estado().puedeMover(self)
 	}
 	
 	method validarMover(direccion) {
@@ -162,7 +161,7 @@ object pepita {
 	
 	method comerVisual(alimento) {
 		self.comer(alimento)
-		game.removeVisual(alimento)
+		alimentos.eliminar(alimento)
 	}
 	
 	method decaer() {
@@ -170,6 +169,13 @@ object pepita {
 		if(self.puedeOcupar(proxima)) {
 			self.position(proxima)
 		}
+		else {
+			if(not self.puedeVolar(1)) {
+				self.perder()
+			}
+		}
+			
+		
 	}
 
 
