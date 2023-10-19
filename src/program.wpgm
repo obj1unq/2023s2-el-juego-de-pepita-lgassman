@@ -1,0 +1,29 @@
+import wollok.game.*
+import pepita.*
+import extras.*
+import direcciones.*
+import comidas.*
+import randomizer.*
+import mapa.*
+
+program pepitaGame {
+	//configurar el tablero
+	game.width(12)
+	game.height(8)
+	game.cellSize(50)
+	
+	mapa.generar()
+	
+	//game.addVisualCharacter(pepita) 
+	keyboard.up().onPressDo({pepita.mover(arriba)})	
+	keyboard.down().onPressDo({pepita.mover(abajo)})
+	keyboard.left().onPressDo({pepita.mover(izquierda)})
+	keyboard.right().onPressDo({pepita.mover(derecha)})
+
+	game.onCollideDo(pepita, {algo => algo.colision(pepita)})	
+	game.onTick(800, "GRAVEDAD", {pepita.decaer()})
+	game.onTick(3000,"ALIMENTOS", {comidasManager.generar()})		
+	//start
+	game.start()
+
+}
